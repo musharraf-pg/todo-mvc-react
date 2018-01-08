@@ -74,8 +74,6 @@ const ToDoItem = ({ todo }) => {
             {elem}
         </ToDoItemStyled>
     )
-
-
 };
 
 export default ToDoItem;
