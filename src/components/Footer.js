@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Filter } from '../constants';
+import PropTypes from 'prop-types';
 
 const FooterStyled = styled.div`
     padding: 10px 16px;
@@ -15,8 +17,13 @@ const FooterStyled = styled.div`
 
 const FilterCategoryStyled = styled.a`
     display: inline-block;
-    padding: 4px 8px;    
+    padding: 4px 8px;
     text-align: center;
+
+    ${props => props.selected && `
+        border: 1px solid rgba(175, 47, 47, 0.2);
+        border-radius: 3px;
+    `}
 `;
 
 const ClearCompletedStyled = styled.a`
@@ -25,20 +32,23 @@ const ClearCompletedStyled = styled.a`
     }
 `;
 
-// State: which category is selected
-
-const Footer = () => (
+const Footer = ({ todosRemainingCount, selectedFilter }) => (
     <FooterStyled>
-        <div>0 items left</div>
+        <div>{todosRemainingCount} {`item${todosRemainingCount === 1 ? '' : 's'}`} left</div>
         <div>
-            <FilterCategoryStyled href="#">All</FilterCategoryStyled>
-            <FilterCategoryStyled href="#">Active</FilterCategoryStyled>
-            <FilterCategoryStyled href="#">Completed</FilterCategoryStyled>
+            <FilterCategoryStyled href="#" selected={selectedFilter === Filter.ALL}>All</FilterCategoryStyled>
+            <FilterCategoryStyled href="#" selected={selectedFilter === Filter.ACTIVE}>Active</FilterCategoryStyled>
+            <FilterCategoryStyled href="#" selected={selectedFilter === Filter.COMPLETED}>Completed</FilterCategoryStyled>
         </div>
         <ClearCompletedStyled href="#">
             Clear completed
         </ClearCompletedStyled>
     </FooterStyled>
 );
+
+Footer.propTypes = {
+    todosRemainingCount: PropTypes.number.isRequired,
+    selectedFilter: PropTypes.string.isRequired
+};
 
 export default Footer;
