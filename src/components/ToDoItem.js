@@ -4,7 +4,7 @@ import xPng from '../static/x.png';
 import checkedSvg from '../static/checked.svg';
 import uncheckedSvg from '../static/unchecked.svg';
 import PropTypes from 'prop-types';
-import ToDoPropType from '../types/ToDoType';
+import ToDoType from '../types/ToDoType';
 
 const ToDoItemStyled = styled.li`
     font-size: 1.5em;
@@ -77,7 +77,7 @@ const ToDoItem = ({ todo }) => {
 };
 
 ToDoItem.propTypes = {
-    todo: ToDoPropType.isRequired
+    todo: ToDoType.isRequired
 };
 
 export default ToDoItem;

@@ -5,7 +5,7 @@ import Footer from './Footer';
 import ToDoList from './ToDoList';
 import PropTypes from 'prop-types';
 import { Filter } from '../constants';
-import _ from 'lodash';
+import { uniqueId } from 'lodash';
 
 const TodoAppStyled = styled.div`
   margin: 0 auto;
@@ -39,9 +39,9 @@ function filterTodos(todos, filter) {
 
 // Defaults
 const todos = [
-  { title: "Learn React", completed: true, editing: false, id: _.uniqueId() },
-  { title: "Sample App", completed: false, editing: false, id: _.uniqueId() },
-  { title: "Team Lunch", completed: false, editing: false, id: _.uniqueId() },
+  { title: "Learn React", completed: true, editing: false, id: uniqueId() },
+  { title: "Sample App", completed: false, editing: false, id: uniqueId() },
+  { title: "Team Lunch", completed: false, editing: false, id: uniqueId() },
 ];
 const selectedFilter = Filter.ALL;
 
