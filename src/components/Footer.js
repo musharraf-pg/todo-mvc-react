@@ -47,8 +47,8 @@ const Footer = ({ todosRemainingCount, selectedFilter }) => (
 );
 
 Footer.propTypes = {
-    todosRemainingCount: PropTypes.number,
-    selectedFilter: PropTypes.string
+    todosRemainingCount: PropTypes.number.isRequired,
+    selectedFilter: PropTypes.string.isRequired
 };
 
 export default Footer;

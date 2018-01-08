@@ -4,6 +4,7 @@ import x_png from '../static/x.png';
 import checked_svg from '../static/checked.svg';
 import unchecked_svg from '../static/unchecked.svg';
 import PropTypes from 'prop-types';
+import ToDoPropType from '../types/ToDoType';
 
 const ToDoItemStyled = styled.li`
     font-size: 1.5em;
@@ -53,12 +54,12 @@ const ToDoEditStyled = styled.input`
 `;
 
 const ToDoItem = ({ todo }) => {
-    let todoViewOrEditElem;
+    let todoItem;
 
     if (todo.editing) {
-        todoViewOrEditElem = <ToDoEditStyled type="text" value={todo.title} />
+        todoItem = <ToDoEditStyled type="text" value={todo.title} />
     } else {
-        todoViewOrEditElem =
+        todoItem =
             <Fragment>
                 <CompleteToggleStyled type="checkbox" checked={todo.completed} />
                 <ToDoItemLabelStyled>
@@ -70,13 +71,13 @@ const ToDoItem = ({ todo }) => {
 
     return (
         <ToDoItemStyled>
-            {todoViewOrEditElem}
+            {todoItem}
         </ToDoItemStyled>
     )
 };
 
 ToDoItem.propTypes = {
-    todo: PropTypes.object
+    todo: ToDoPropType.isRequired
 };
 
 export default ToDoItem;

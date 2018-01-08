@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import ToDoItem from './ToDoItem';
 import PropTypes from 'prop-types';
+import ToDoPropType from '../types/ToDoType';
 
 const ToDoListStyled = styled.ul`
     margin: 1em 0;
@@ -19,7 +20,7 @@ const ToDoList = ({ todos }) => (
 );
 
 ToDoList.propTypes = {
-    todos: PropTypes.array
+    todos: PropTypes.arrayOf(ToDoPropType).isRequired
 };
 
 export default ToDoList;

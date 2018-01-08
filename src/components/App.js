@@ -37,14 +37,15 @@ function filterTodos(todos, filter) {
   }
 }
 
-const App = () => {
-  const todos = [
-    { title: "Learn React", completed: true, editing: false, id: _.uniqueId() },
-    { title: "Sample App", completed: false, editing: false, id: _.uniqueId() },
-    { title: "Team Lunch", completed: false, editing: false, id: _.uniqueId() },
-  ];
-  const selectedFilter = Filter.ALL;
+// Defaults
+const todos = [
+  { title: "Learn React", completed: true, editing: false, id: _.uniqueId() },
+  { title: "Sample App", completed: false, editing: false, id: _.uniqueId() },
+  { title: "Team Lunch", completed: false, editing: false, id: _.uniqueId() },
+];
+const selectedFilter = Filter.ALL;
 
+const App = () => {
   const filteredTodos = filterTodos(todos, selectedFilter);
   const todosRemainingCount = (selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE)).length;
 
@@ -57,7 +58,7 @@ const App = () => {
       <ContentStyled>
         <Header />
         <ToDoList todos={filteredTodos} />
-        <Footer todosRemainingCount={todosRemainingCount} activeFilter={selectedFilter} />
+        <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} />
       </ContentStyled>
     </TodoAppStyled>
   );
