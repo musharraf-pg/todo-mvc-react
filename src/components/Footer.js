@@ -32,7 +32,7 @@ const ClearCompletedStyled = styled.a`
     }
 `;
 
-const Footer = ({ todosRemainingCount, selectedFilter, onUpdateSelectedFilter }) => (
+const Footer = ({ todosRemainingCount, selectedFilter, onUpdateSelectedFilter, onClearCompleted }) => (
     <FooterStyled>
         <div>{todosRemainingCount} {`item${todosRemainingCount === 1 ? '' : 's'}`} left</div>
         <div>
@@ -40,7 +40,7 @@ const Footer = ({ todosRemainingCount, selectedFilter, onUpdateSelectedFilter })
             <FilterCategoryStyled href="#" selected={selectedFilter === Filter.ACTIVE} onClick={() => onUpdateSelectedFilter(Filter.ACTIVE)}>Active</FilterCategoryStyled>
             <FilterCategoryStyled href="#" selected={selectedFilter === Filter.COMPLETED} onClick={() => onUpdateSelectedFilter(Filter.COMPLETED)}>Completed</FilterCategoryStyled>
         </div>
-        <ClearCompletedStyled href="#">
+        <ClearCompletedStyled href="#" onClick={onClearCompleted}>
             Clear completed
         </ClearCompletedStyled>
     </FooterStyled>

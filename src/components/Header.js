@@ -72,7 +72,7 @@ const Header = class extends React.Component {
     render() {
         return (
             <HeaderStyled>
-                <MarkAllCompleteStyled type="checkbox" />
+                <MarkAllCompleteStyled type="checkbox" checked={this.props.markAllCompleteChecked} onChange={() => this.props.onUpdateAllCompletedTo(!this.props.markAllCompleteChecked)}/>
                 <NewTodoFieldStyled type="text" placeholder="What needs to be done?" value={this.state.newToDoTitle} onChange={this.onInputChange} onKeyPress={this.onKeyPress}/>
             </HeaderStyled>
         );

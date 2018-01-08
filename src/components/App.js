@@ -90,8 +90,14 @@ const App = class extends React.Component {
 
   onUpdateAllCompletedTo = (newCompletedStatus) => {
     this.setState({
-      todo: this.state.todos.map(todo => ({...todo, completed: newCompletedStatus}))
+      todos: this.state.todos.map(todo => ({...todo, completed: newCompletedStatus}))
     });
+  }
+
+  onClearCompleted = () => {
+    this.setState({
+      todos: filterTodos(this.state.todos, Filter.ACTIVE)
+    })
   }
 
   render() {
@@ -107,9 +113,9 @@ const App = class extends React.Component {
         </AppTitleStyled>
 
         <ContentStyled>
-          <Header onEnterNewTodo={this.onEnterNewTodo} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo}/>
+          <Header onEnterNewTodo={this.onEnterNewTodo} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo} markAllCompleteChecked={todos.length > 0 && todos.every(todo => todo.completed)}/>
           <ToDoList todos={filteredTodos} onDeleteToDo={this.onDeleteToDo} onToggleToDoComplete={this.onToggleToDoComplete} onEditToDo={this.onEditToDo} onStartEditTodo={this.onStartEditTodo} onUpdateToDo={this.onUpdateToDo}/>
-          <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} onUpdateSelectedFilter={this.onUpdateSelectedFilter} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo}/>
+          <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} onUpdateSelectedFilter={this.onUpdateSelectedFilter} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo} onClearCompleted={this.onClearCompleted}/>
         </ContentStyled>
       </TodoAppStyled>
     );
