@@ -3,12 +3,9 @@ import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import ToDoList from './ToDoList';
-
-export const Filter = {
-  ALL: "ALL",
-  ACTIVE: "ACTIVE",
-  COMPLETED: "COMPLETED"
-};
+import PropTypes from 'prop-types';
+import { Filter } from '../constants';
+import _ from 'lodash';
 
 const TodoAppStyled = styled.div`
   margin: 0 auto;
@@ -36,14 +33,20 @@ function filterTodos(todos, filter) {
     case Filter.COMPLETED:
       return todos.filter(todo => todos.completed);
     default:
-    case Filter.ALL:
       return todos;
   }
 }
 
-const App = ({ todos, selectedFilter }) => {
+const App = () => {
+  const todos = [
+    { title: "Learn React", completed: true, editing: false, id: _.uniqueId() },
+    { title: "Sample App", completed: false, editing: false, id: _.uniqueId() },
+    { title: "Team Lunch", completed: false, editing: false, id: _.uniqueId() },
+  ];
+  const selectedFilter = Filter.ALL;
+
   const filteredTodos = filterTodos(todos, selectedFilter);
-  const todosRemaining = selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE);
+  const todosRemainingCount = (selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE)).length;
 
   return (
     <TodoAppStyled>
@@ -54,7 +57,7 @@ const App = ({ todos, selectedFilter }) => {
       <ContentStyled>
         <Header />
         <ToDoList todos={filteredTodos} />
-        <Footer todosRemainingCount={filterTodos(todos, Filter.ACTIVE).length} activeFilter={selectedFilter} />
+        <Footer todosRemainingCount={todosRemainingCount} activeFilter={selectedFilter} />
       </ContentStyled>
     </TodoAppStyled>
   );

@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import x_png from '../static/x.png';
+import checked_svg from '../static/checked.svg';
+import unchecked_svg from '../static/unchecked.svg';
+import PropTypes from 'prop-types';
 
 const ToDoItemStyled = styled.li`
     font-size: 1.5em;
@@ -9,22 +13,19 @@ const ToDoItemStyled = styled.li`
     align-items: center;
 `;
 
-const CompleteToggleStyled = styled.input.attrs({
-    type: "checkbox"
-}) `
+const CompleteToggleStyled = styled.input`
     width: 40px;
     height: 40px;
     display: block;
-    -webkit-appearance: none;
     appearance: none;
     outline: none;
     margin-right: 1em;
 
     &::after {
-        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
+        content: url(${unchecked_svg});
     }
     &:checked::after {
-        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
+        content: url(${checked_svg});
     }
 `;
 
@@ -34,7 +35,7 @@ const ToDoItemLabelStyled = styled.label`
 
 const ToDoDeleteStyled = styled.a`
     display: none;
-    background-image: url(x.png);
+    background-image: url(${x_png});
     width: 20px;
     height: 20px;
     margin-right: .5em;
@@ -45,35 +46,37 @@ const ToDoDeleteStyled = styled.a`
     }
 `;
 
-const ToDoEditStyled = styled.input.attrs({
-    type: 'text'
-}) `
+const ToDoEditStyled = styled.input`
     flex: 1;
     font-size: 1em;
     display: block;
 `;
 
 const ToDoItem = ({ todo }) => {
-    let elem;
+    let todoViewOrEditElem;
 
     if (todo.editing) {
-        elem = <ToDoEditStyled value={todo.title} />
+        todoViewOrEditElem = <ToDoEditStyled type="text" value={todo.title} />
     } else {
-        elem =
+        todoViewOrEditElem =
             <Fragment>
-                <CompleteToggleStyled checked={todo.completed} />
+                <CompleteToggleStyled type="checkbox" checked={todo.completed} />
                 <ToDoItemLabelStyled>
                     {todo.title}
                 </ToDoItemLabelStyled>
-                <ToDoDeleteStyled></ToDoDeleteStyled>
+                <ToDoDeleteStyled />
             </Fragment>
     }
 
     return (
         <ToDoItemStyled>
-            {elem}
+            {todoViewOrEditElem}
         </ToDoItemStyled>
     )
+};
+
+ToDoItem.propTypes = {
+    todo: PropTypes.object
 };
 
 export default ToDoItem;
