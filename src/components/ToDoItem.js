@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import x_png from '../static/x.png';
-import checked_svg from '../static/checked.svg';
-import unchecked_svg from '../static/unchecked.svg';
+import xPng from '../static/x.png';
+import checkedSvg from '../static/checked.svg';
+import uncheckedSvg from '../static/unchecked.svg';
 import PropTypes from 'prop-types';
 import ToDoPropType from '../types/ToDoType';
 
@@ -23,10 +23,10 @@ const CompleteToggleStyled = styled.input`
     margin-right: 1em;
 
     &::after {
-        content: url(${unchecked_svg});
+        content: url(${uncheckedSvg});
     }
     &:checked::after {
-        content: url(${checked_svg});
+        content: url(${checkedSvg});
     }
 `;
 
@@ -36,7 +36,7 @@ const ToDoItemLabelStyled = styled.label`
 
 const ToDoDeleteStyled = styled.a`
     display: none;
-    background-image: url(${x_png});
+    background-image: url(${xPng});
     width: 20px;
     height: 20px;
     margin-right: .5em;
