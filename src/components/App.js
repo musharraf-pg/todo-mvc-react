@@ -5,7 +5,7 @@ import Footer from './Footer';
 import ToDoList from './ToDoList';
 import PropTypes from 'prop-types';
 import { Filter } from '../constants';
-import { uniqueId } from 'lodash';
+import { uniqueId, difference } from 'lodash';
 
 const TodoAppStyled = styled.div`
   margin: 0 auto;
@@ -31,37 +31,89 @@ function filterTodos(todos, filter) {
     case Filter.ACTIVE:
       return todos.filter(todo => !todo.completed);
     case Filter.COMPLETED:
-      return todos.filter(todo => todos.completed);
+      return todos.filter(todo => todo.completed);
     default:
       return todos;
   }
 }
 
-// Defaults
-const todos = [
-  { title: "Learn React", completed: true, editing: false, id: uniqueId() },
-  { title: "Sample App", completed: false, editing: false, id: uniqueId() },
-  { title: "Team Lunch", completed: false, editing: false, id: uniqueId() },
-];
-const selectedFilter = Filter.ALL;
+const App = class extends React.Component {
+  constructor(props) {
+    super(props);
 
-const App = () => {
-  const filteredTodos = filterTodos(todos, selectedFilter);
-  const todosRemainingCount = (selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE)).length;
+    this.state = {
+      todos: [
+        { title: "Learn React", completed: true, editing: false, id: uniqueId() },
+        { title: "Sample App", completed: false, editing: false, id: uniqueId() },
+        { title: "Team Lunch", completed: false, editing: false, id: uniqueId() },
+      ],
+      selectedFilter: Filter.ALL
+    }
+  };
 
-  return (
-    <TodoAppStyled>
-      <AppTitleStyled>
-        <h1>todos</h1>
-      </AppTitleStyled>
+  onEnterNewTodo = (title) => {
+    this.setState({
+      todos: this.state.todos.concat([{ title: title, completed: false, editing: false, id: uniqueId() }])
+    });
+  };
 
-      <ContentStyled>
-        <Header />
-        <ToDoList todos={filteredTodos} />
-        <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} />
-      </ContentStyled>
-    </TodoAppStyled>
-  );
+  onDeleteToDo = (todo) => {
+    this.setState({
+      todos: difference(this.state.todos, [todo])
+    });
+  };
+
+  // onToggleToDoComplete = (todo) => {
+  //   const newTodos = [ ...this.state.todos ];
+  //   const newTodo = newTodos.find((item) => item.id === todo.id);
+  //   newTodo.completed = !newTodo.completed;
+
+  //   this.setState({
+  //     todos: newTodos
+  //   });
+  // };
+
+  onUpdateToDo = (oldTodo, newTodo) => {
+    const newTodos = [ ...this.state.todos ];
+    newTodos[this.state.todos.indexOf(oldTodo)] = newTodo;
+
+    this.setState({
+      todos: newTodos
+    });
+  };
+
+  onUpdateSelectedFilter = (selectedFilter) => {
+    this.setState({
+      selectedFilter
+    })
+  };
+
+  onUpdateAllCompletedTo = (newCompletedStatus) => {
+    this.setState({
+      todo: this.state.todos.map(todo => ({...todo, completed: newCompletedStatus}))
+    });
+  }
+
+  render() {
+    const {todos, selectedFilter} = this.state;
+
+    const filteredTodos = filterTodos(todos, selectedFilter);
+    const todosRemainingCount = (selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE)).length;
+
+    return (
+      <TodoAppStyled>
+        <AppTitleStyled>
+          <h1>todos</h1>
+        </AppTitleStyled>
+
+        <ContentStyled>
+          <Header onEnterNewTodo={this.onEnterNewTodo} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo}/>
+          <ToDoList todos={filteredTodos} onDeleteToDo={this.onDeleteToDo} onToggleToDoComplete={this.onToggleToDoComplete} onEditToDo={this.onEditToDo} onStartEditTodo={this.onStartEditTodo} onUpdateToDo={this.onUpdateToDo}/>
+          <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} onUpdateSelectedFilter={this.onUpdateSelectedFilter} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo}/>
+        </ContentStyled>
+      </TodoAppStyled>
+    );
+  }
 };
 
 export default App;

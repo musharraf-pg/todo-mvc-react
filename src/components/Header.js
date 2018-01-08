@@ -47,11 +47,36 @@ const NewTodoFieldStyled = styled.input`
     }
 `;
 
-const Header = () => (
-    <HeaderStyled>
-        <MarkAllCompleteStyled type="checkbox" />
-        <NewTodoFieldStyled type="text" placeholder="What needs to be done?" />
-    </HeaderStyled>
-);
+const Header = class extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            newToDoTitle: ''
+        }
+    }
+
+    onInputChange = (event) => {
+        this.setState({newToDoTitle: event.target.value});
+    };
+
+    onKeyPress = (event) => {
+        if (event.which === 13) {
+            this.props.onEnterNewTodo(this.state.newToDoTitle); 
+
+            // Clear input
+            this.setState({ newToDoTitle: ''});
+        }
+    };
+
+    render() {
+        return (
+            <HeaderStyled>
+                <MarkAllCompleteStyled type="checkbox" />
+                <NewTodoFieldStyled type="text" placeholder="What needs to be done?" value={this.state.newToDoTitle} onChange={this.onInputChange} onKeyPress={this.onKeyPress}/>
+            </HeaderStyled>
+        );
+    }
+};
 
 export default Header;

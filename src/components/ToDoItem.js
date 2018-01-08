@@ -53,27 +53,47 @@ const ToDoEditStyled = styled.input`
     display: block;
 `;
 
-const ToDoItem = ({ todo }) => {
-    let todoItem;
+const ToDoItem = class extends React.Component {
+    constructor(props) {
+        super(props);
 
-    if (todo.editing) {
-        todoItem = <ToDoEditStyled type="text" value={todo.title} />
-    } else {
-        todoItem =
-            <Fragment>
-                <CompleteToggleStyled type="checkbox" checked={todo.completed} />
-                <ToDoItemLabelStyled>
-                    {todo.title}
-                </ToDoItemLabelStyled>
-                <ToDoDeleteStyled />
-            </Fragment>
+        this.state = {
+            editText: props.todo.title
+        }
     }
 
-    return (
-        <ToDoItemStyled>
-            {todoItem}
-        </ToDoItemStyled>
-    )
+    onEditKeyPress = (event) => {
+        if (event.which === 13) {
+            this.props.onUpdateToDo(this.props.todo, { ...this.props.todo, title: this.state.editText, editing: false });
+        }
+    }
+
+    render() {
+        const {
+            props: { todo, onDeleteToDo, onToggleToDoComplete, onEditToDo, onStartEditTodo, onUpdateToDo },
+        } = this;
+
+        let todoItem;
+
+        if (todo.editing) {
+            todoItem = <ToDoEditStyled type="text" autoFocus value={this.state.editText} onChange={(event) => this.setState({ editText: event.target.value })} onKeyPress={this.onEditKeyPress}/>
+        } else {
+            todoItem =
+                <Fragment>
+                    <CompleteToggleStyled type="checkbox" checked={todo.completed} onChange={() => onUpdateToDo(todo, { ...todo, completed: !todo.completed})} />
+                    <ToDoItemLabelStyled onDoubleClick={() => {onUpdateToDo(todo, {...todo, editing: true})}}>
+                        {todo.title}
+                    </ToDoItemLabelStyled>
+                    <ToDoDeleteStyled onClick={() => onDeleteToDo(todo)}/>
+                </Fragment>
+        }
+
+        return (
+            <ToDoItemStyled>
+                {todoItem}
+            </ToDoItemStyled>
+        )
+    }
 };
 
 ToDoItem.propTypes = {
