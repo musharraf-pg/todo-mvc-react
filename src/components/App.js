@@ -38,18 +38,14 @@ function filterTodos(todos, filter) {
 }
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      todos: [
+    state = {
+        todos: [
         { title: "Learn React", completed: true, editing: false, id: uniqueId() },
         { title: "Sample App", completed: false, editing: false, id: uniqueId() },
         { title: "Team Lunch", completed: false, editing: false, id: uniqueId() },
-      ],
-      selectedFilter: Filter.ALL
-    }
-  };
+        ],
+        selectedFilter: Filter.ALL
+    };
 
   onEnterNewTodo = (title) => {
     this.setState((prevState) => {

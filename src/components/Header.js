@@ -49,13 +49,9 @@ const NewTodoFieldStyled = styled.input`
 `;
 
 class Header extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            newToDoTitle: ''
-        }
-    }
+    state = {
+        newToDoTitle: ''
+    };
 
     onInputChange = (event) => {
         this.setState({newToDoTitle: event.target.value});

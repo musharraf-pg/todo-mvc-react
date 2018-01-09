@@ -54,13 +54,9 @@ const ToDoEditStyled = styled.input`
 `;
 
 class ToDoItem extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            editText: props.todo.title
-        }
-    }
+    state = {
+        editText: this.props.todo.title,
+    };
 
     onEditKeyPress = (event) => {
         if (event.which === 13) {
