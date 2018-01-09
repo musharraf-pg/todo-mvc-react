@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import xPng from '../static/x.png';
 import checkedSvg from '../static/checked.svg';
 import uncheckedSvg from '../static/unchecked.svg';
-import PropTypes from 'prop-types';
 import ToDoType from '../types/ToDoType';
 
 const ToDoItemStyled = styled.li`
     font-size: 1.5em;
-    padding: .5em 0;
+    padding: 0.5em 0;
     border-top: 1px #ededed solid;
     display: flex;
     align-items: center;
@@ -39,7 +39,7 @@ const ToDoDeleteStyled = styled.a`
     background-image: url(${xPng});
     width: 20px;
     height: 20px;
-    margin-right: .5em;
+    margin-right: 0.5em;
     cursor: pointer;
 
     ${ToDoItemStyled}:hover & {
@@ -63,19 +63,21 @@ class ToDoItem extends Component {
             const newTodo = { ...this.props.todo, title: this.state.editText, editing: false };
             this.props.onUpdateToDo(this.props.todo, newTodo);
         }
-    }
+    };
 
     onToggleToDoComplete = () => {
         const { todo, onUpdateToDo } = this.props;
-        onUpdateToDo(todo, { 
-            ...todo, completed: !todo.completed
+        onUpdateToDo(todo, {
+            ...todo,
+            completed: !todo.completed,
         });
     };
 
-    onDoubleClickToDoLabel = () => { 
+    onDoubleClickToDoLabel = () => {
         const { todo, onUpdateToDo } = this.props;
         onUpdateToDo(todo, {
-            ...todo, editing: true
+            ...todo,
+            editing: true,
         });
     };
 
@@ -85,27 +87,34 @@ class ToDoItem extends Component {
         let todoItem;
 
         if (todo.editing) {
-            todoItem = <ToDoEditStyled type="text" autoFocus value={this.state.editText} 
-                onChange={(event) => this.setState({ editText: event.target.value })}
-                onKeyPress={this.onEditKeyPress}/>
+            todoItem = (
+                <ToDoEditStyled
+                    type="text"
+                    autoFocus
+                    value={this.state.editText}
+                    onChange={event => this.setState({ editText: event.target.value })}
+                    onKeyPress={this.onEditKeyPress}
+                />
+            );
         } else {
-            todoItem =
+            todoItem = (
                 <Fragment>
-                    <CompleteToggleStyled type="checkbox" checked={todo.completed} onChange={this.onToggleToDoComplete} />
+                    <CompleteToggleStyled
+                        type="checkbox"
+                        checked={todo.completed}
+                        onChange={this.onToggleToDoComplete}
+                    />
                     <ToDoItemLabelStyled onDoubleClick={this.onDoubleClickToDoLabel}>
                         {todo.title}
                     </ToDoItemLabelStyled>
-                    <ToDoDeleteStyled onClick={() => onDeleteToDo(todo)}/>
+                    <ToDoDeleteStyled onClick={() => onDeleteToDo(todo)} />
                 </Fragment>
+            );
         }
 
-        return (
-            <ToDoItemStyled>
-                {todoItem}
-            </ToDoItemStyled>
-        )
+        return <ToDoItemStyled>{todoItem}</ToDoItemStyled>;
     }
-};
+}
 
 ToDoItem.propTypes = {
     todo: ToDoType.isRequired,

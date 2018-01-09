@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 const HeaderStyled = styled.div`
     display: flex;
     align-items: center;
-    background-color: rgba(0,0,0,0.004);
-    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+    background-color: rgba(0, 0, 0, 0.004);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 `;
 
 const MarkAllCompleteStyled = styled.input`
@@ -25,8 +25,8 @@ const MarkAllCompleteStyled = styled.input`
         font-size: 3rem;
         display: block;
         line-height: 0;
-        transform: translateY(-.05em);
-        padding: 0 .5rem;
+        transform: translateY(-0.05em);
+        padding: 0 0.5rem;
     }
 `;
 
@@ -43,18 +43,18 @@ const NewTodoFieldStyled = styled.input`
     flex: 1;
 
     &::-webkit-input-placeholder {
-        opacity: .2;
-        font-style: italic;        
+        opacity: 0.2;
+        font-style: italic;
     }
 `;
 
 class Header extends Component {
     state = {
-        newToDoTitle: ''
+        newToDoTitle: '',
     };
 
     onInputChange = (event) => {
-        this.setState({newToDoTitle: event.target.value});
+        this.setState({ newToDoTitle: event.target.value });
     };
 
     onKeyPress = (event) => {
@@ -73,14 +73,22 @@ class Header extends Component {
         const { markAllCompleteChecked, onUpdateAllCompletedTo } = this.props;
         return (
             <HeaderStyled>
-                <MarkAllCompleteStyled type="checkbox" checked={markAllCompleteChecked} 
-                    onChange={() => onUpdateAllCompletedTo(!markAllCompleteChecked)}/>
-                <NewTodoFieldStyled type="text" placeholder="What needs to be done?" 
-                    value={this.state.newToDoTitle} onChange={this.onInputChange} onKeyPress={this.onKeyPress}/>
+                <MarkAllCompleteStyled
+                    type="checkbox"
+                    checked={markAllCompleteChecked}
+                    onChange={() => onUpdateAllCompletedTo(!markAllCompleteChecked)}
+                />
+                <NewTodoFieldStyled
+                    type="text"
+                    placeholder="What needs to be done?"
+                    value={this.state.newToDoTitle}
+                    onChange={this.onInputChange}
+                    onKeyPress={this.onKeyPress}
+                />
             </HeaderStyled>
         );
     }
-};
+}
 
 Header.propTypes = {
     onEnterNewTodo: PropTypes.func.isRequired,
