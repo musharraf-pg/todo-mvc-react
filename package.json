@@ -1,17 +1,28 @@
 {
-  "name": "todo-mvc-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17",
-    "styled-components": "^2.4.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "name": "todo-mvc-react",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-scripts": "1.0.17",
+        "styled-components": "^2.4.0"
+    },
+    "eslintConfig": {
+        "extends": "@prodigy/eslint-config-prodigy"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "devDependencies": {
+        "@prodigy/eslint-config-prodigy": "0.0.7",
+        "babel-eslint": "^8.2.1",
+        "eslint": "^4.15.0",
+        "eslint-config-airbnb-base": "^9.0.0",
+        "eslint-plugin-import": "^2.8.0",
+        "eslint-plugin-react": "^7.5.1"
+    }
 }

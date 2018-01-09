@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import ToDoItem from './ToDoItem';
 import PropTypes from 'prop-types';
+import ToDoItem from './ToDoItem';
 import ToDoType from '../types/ToDoType';
 
 const ToDoListStyled = styled.ul`
@@ -11,11 +11,9 @@ const ToDoListStyled = styled.ul`
     margin: 0;
 `;
 
-const ToDoList = ( { todos, ...rest } ) => (
+const ToDoList = ({ todos, ...rest }) => (
     <ToDoListStyled>
-        {todos.map(todo => (
-            <ToDoItem key={todo.id} todo={todo} { ...rest } />
-        ))}
+        {todos.map(todo => <ToDoItem key={todo.id} todo={todo} {...rest} />)}
     </ToDoListStyled>
 );
 
