@@ -65,16 +65,22 @@ class ToDoItem extends Component {
         }
     }
 
-    onToggleToDoComplete = () => this.props.onUpdateToDo(todo, { 
-        ...todo, completed: !todo.completed
-    });
+    onToggleToDoComplete = () => {
+        const { todo, onUpdateToDo } = this.props;
+        onUpdateToDo(todo, { 
+            ...todo, completed: !todo.completed
+        });
+    };
 
-    onDoubleClickToDoLabel = () => this.props.onUpdateToDo(todo, {
-        ...todo, editing: true
-    });
+    onDoubleClickToDoLabel = () => { 
+        const { todo, onUpdateToDo } = this.props;
+        onUpdateToDo(todo, {
+            ...todo, editing: true
+        });
+    };
 
     render() {
-        const { todo, onDeleteToDo, onUpdateToDo } = this.props;
+        const { todo, onDeleteToDo } = this.props;
 
         let todoItem;
 

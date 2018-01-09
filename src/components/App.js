@@ -48,17 +48,17 @@ class App extends Component {
     };
 
   onEnterNewTodo = (title) => {
-    this.setState((prevState) => {
+    this.setState(({ todos }) => {
         return {
-            todos: prevState.todos.concat([{ title, completed: false, editing: false, id: uniqueId() }])
+            todos: todos.concat([{ title, completed: false, editing: false, id: uniqueId() }])
         };
     });
   };
 
   onDeleteToDo = (todo) => {
-    this.setState((prevState) => {
+    this.setState(({ todos }) => {
         return {
-            todos: difference(prevState.todos, [todo])
+            todos: difference(todos, [todo])
         };
     });
   };
@@ -74,9 +74,9 @@ class App extends Component {
   // };
 
   onUpdateToDo = (oldTodo, newTodo) => {
-    this.setState((prevState) => {
-        const newTodos = [ ...prevState.todos ];
-        newTodos[prevState.todos.indexOf(oldTodo)] = newTodo;
+    this.setState(({ todos }) => {
+        const newTodos = [ ...todos ];
+        newTodos[todos.indexOf(oldTodo)] = newTodo;
     
         return {
           todos: newTodos
@@ -85,25 +85,21 @@ class App extends Component {
   };
 
   onUpdateSelectedFilter = (selectedFilter) => {
-      this.setState((prevState) => {
-          return {
-            selectedFilter
-          };
-      });
+      this.setState({ selectedFilter });
   };
 
   onUpdateAllCompletedTo = (newCompletedStatus) => {
-      this.setState((prevState) => {
+      this.setState(({ todos }) => {
           return {
-            todos: prevState.todos.map(todo => ({...todo, completed: newCompletedStatus}))
+            todos: todos.map(todo => ({...todo, completed: newCompletedStatus}))
           };
       });
   }
 
   onClearCompleted = () => {
-      this.setState((prevState) => {
+      this.setState(({ todos }) => {
           return {
-            todos: filterTodos(prevState.todos, Filter.ACTIVE)
+            todos: filterTodos(todos, Filter.ACTIVE)
           };
       });
   }
