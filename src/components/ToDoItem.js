@@ -65,18 +65,28 @@ class ToDoItem extends Component {
         }
     }
 
+    onToggleToDoComplete = () => this.props.onUpdateToDo(todo, { 
+        ...todo, completed: !todo.completed
+    });
+
+    onDoubleClickToDoLabel = () => this.props.onUpdateToDo(todo, {
+        ...todo, editing: true
+    });
+
     render() {
         const { todo, onDeleteToDo, onUpdateToDo } = this.props;
 
         let todoItem;
 
         if (todo.editing) {
-            todoItem = <ToDoEditStyled type="text" autoFocus value={this.state.editText} onChange={(event) => this.setState({ editText: event.target.value })} onKeyPress={this.onEditKeyPress}/>
+            todoItem = <ToDoEditStyled type="text" autoFocus value={this.state.editText} 
+                onChange={(event) => this.setState({ editText: event.target.value })}
+                onKeyPress={this.onEditKeyPress}/>
         } else {
             todoItem =
                 <Fragment>
-                    <CompleteToggleStyled type="checkbox" checked={todo.completed} onChange={() => onUpdateToDo(todo, { ...todo, completed: !todo.completed})} />
-                    <ToDoItemLabelStyled onDoubleClick={() => {onUpdateToDo(todo, {...todo, editing: true})}}>
+                    <CompleteToggleStyled type="checkbox" checked={todo.completed} onChange={this.onToggleToDoComplete} />
+                    <ToDoItemLabelStyled onDoubleClick={this.onDoubleClickToDoLabel}>
                         {todo.title}
                     </ToDoItemLabelStyled>
                     <ToDoDeleteStyled onClick={() => onDeleteToDo(todo)}/>
