@@ -11,16 +11,18 @@ const ToDoListStyled = styled.ul`
     margin: 0;
 `;
 
-const ToDoList = ({ todos }) => (
+const ToDoList = ( { todos, ...rest } ) => (
     <ToDoListStyled>
         {todos.map(todo => (
-            <ToDoItem key={todo.id} todo={todo} />
+            <ToDoItem key={todo.id} todo={todo} { ...rest } />
         ))}
     </ToDoListStyled>
 );
 
 ToDoList.propTypes = {
-    todos: PropTypes.arrayOf(ToDoType).isRequired
+    todos: PropTypes.arrayOf(ToDoType).isRequired,
+    onDeleteToDo: PropTypes.func.isRequired,
+    onUpdateToDo: PropTypes.func.isRequired,
 };
 
 export default ToDoList;

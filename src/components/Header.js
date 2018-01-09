@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const HeaderStyled = styled.div`
     display: flex;
@@ -47,11 +48,44 @@ const NewTodoFieldStyled = styled.input`
     }
 `;
 
-const Header = () => (
-    <HeaderStyled>
-        <MarkAllCompleteStyled type="checkbox" />
-        <NewTodoFieldStyled type="text" placeholder="What needs to be done?" />
-    </HeaderStyled>
-);
+class Header extends Component {
+    state = {
+        newToDoTitle: ''
+    };
+
+    onInputChange = (event) => {
+        this.setState({newToDoTitle: event.target.value});
+    };
+
+    onKeyPress = (event) => {
+        if (event.which === 13) {
+            this.props.onEnterNewTodo(this.state.newToDoTitle);
+            this.resetInput();
+        }
+    };
+
+    // Clear input
+    resetInput = () => {
+        this.setState({ newToDoTitle: '' });
+    };
+
+    render() {
+        const { markAllCompleteChecked, onUpdateAllCompletedTo } = this.props;
+        return (
+            <HeaderStyled>
+                <MarkAllCompleteStyled type="checkbox" checked={markAllCompleteChecked} 
+                    onChange={() => onUpdateAllCompletedTo(!markAllCompleteChecked)}/>
+                <NewTodoFieldStyled type="text" placeholder="What needs to be done?" 
+                    value={this.state.newToDoTitle} onChange={this.onInputChange} onKeyPress={this.onKeyPress}/>
+            </HeaderStyled>
+        );
+    }
+};
+
+Header.propTypes = {
+    onEnterNewTodo: PropTypes.func.isRequired,
+    onUpdateAllCompletedTo: PropTypes.func.isRequired,
+    markAllCompleteChecked: PropTypes.bool.isRequired,
+};
 
 export default Header;

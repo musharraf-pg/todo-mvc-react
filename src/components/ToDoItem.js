@@ -53,31 +53,64 @@ const ToDoEditStyled = styled.input`
     display: block;
 `;
 
-const ToDoItem = ({ todo }) => {
-    let todoItem;
+class ToDoItem extends Component {
+    state = {
+        editText: this.props.todo.title,
+    };
 
-    if (todo.editing) {
-        todoItem = <ToDoEditStyled type="text" value={todo.title} />
-    } else {
-        todoItem =
-            <Fragment>
-                <CompleteToggleStyled type="checkbox" checked={todo.completed} />
-                <ToDoItemLabelStyled>
-                    {todo.title}
-                </ToDoItemLabelStyled>
-                <ToDoDeleteStyled />
-            </Fragment>
+    onEditKeyPress = (event) => {
+        if (event.which === 13) {
+            const newTodo = { ...this.props.todo, title: this.state.editText, editing: false };
+            this.props.onUpdateToDo(this.props.todo, newTodo);
+        }
     }
 
-    return (
-        <ToDoItemStyled>
-            {todoItem}
-        </ToDoItemStyled>
-    )
+    onToggleToDoComplete = () => {
+        const { todo, onUpdateToDo } = this.props;
+        onUpdateToDo(todo, { 
+            ...todo, completed: !todo.completed
+        });
+    };
+
+    onDoubleClickToDoLabel = () => { 
+        const { todo, onUpdateToDo } = this.props;
+        onUpdateToDo(todo, {
+            ...todo, editing: true
+        });
+    };
+
+    render() {
+        const { todo, onDeleteToDo } = this.props;
+
+        let todoItem;
+
+        if (todo.editing) {
+            todoItem = <ToDoEditStyled type="text" autoFocus value={this.state.editText} 
+                onChange={(event) => this.setState({ editText: event.target.value })}
+                onKeyPress={this.onEditKeyPress}/>
+        } else {
+            todoItem =
+                <Fragment>
+                    <CompleteToggleStyled type="checkbox" checked={todo.completed} onChange={this.onToggleToDoComplete} />
+                    <ToDoItemLabelStyled onDoubleClick={this.onDoubleClickToDoLabel}>
+                        {todo.title}
+                    </ToDoItemLabelStyled>
+                    <ToDoDeleteStyled onClick={() => onDeleteToDo(todo)}/>
+                </Fragment>
+        }
+
+        return (
+            <ToDoItemStyled>
+                {todoItem}
+            </ToDoItemStyled>
+        )
+    }
 };
 
 ToDoItem.propTypes = {
-    todo: ToDoType.isRequired
+    todo: ToDoType.isRequired,
+    onDeleteToDo: PropTypes.func.isRequired,
+    onUpdateToDo: PropTypes.func.isRequired,
 };
 
 export default ToDoItem;
