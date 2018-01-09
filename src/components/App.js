@@ -37,7 +37,7 @@ function filterTodos(todos, filter) {
   }
 }
 
-const App = class extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -52,14 +52,18 @@ const App = class extends React.Component {
   };
 
   onEnterNewTodo = (title) => {
-    this.setState({
-      todos: this.state.todos.concat([{ title: title, completed: false, editing: false, id: uniqueId() }])
+    this.setState((prevState) => {
+        return {
+            todos: prevState.todos.concat([{ title, completed: false, editing: false, id: uniqueId() }])
+        };
     });
   };
 
   onDeleteToDo = (todo) => {
-    this.setState({
-      todos: difference(this.state.todos, [todo])
+    this.setState((prevState) => {
+        return {
+            todos: difference(prevState.todos, [todo])
+        };
     });
   };
 
@@ -74,37 +78,51 @@ const App = class extends React.Component {
   // };
 
   onUpdateToDo = (oldTodo, newTodo) => {
-    const newTodos = [ ...this.state.todos ];
-    newTodos[this.state.todos.indexOf(oldTodo)] = newTodo;
-
-    this.setState({
-      todos: newTodos
+    this.setState((prevState) => {
+        const newTodos = [ ...prevState.todos ];
+        newTodos[prevState.todos.indexOf(oldTodo)] = newTodo;
+    
+        return {
+          todos: newTodos
+        }
     });
   };
 
   onUpdateSelectedFilter = (selectedFilter) => {
-    this.setState({
-      selectedFilter
-    })
+      this.setState((prevState) => {
+          return {
+            selectedFilter
+          };
+      });
   };
 
   onUpdateAllCompletedTo = (newCompletedStatus) => {
-    this.setState({
-      todos: this.state.todos.map(todo => ({...todo, completed: newCompletedStatus}))
-    });
+      this.setState((prevState) => {
+          return {
+            todos: prevState.todos.map(todo => ({...todo, completed: newCompletedStatus}))
+          };
+      });
   }
 
   onClearCompleted = () => {
-    this.setState({
-      todos: filterTodos(this.state.todos, Filter.ACTIVE)
-    })
+      this.setState((prevState) => {
+          return {
+            todos: filterTodos(prevState.todos, Filter.ACTIVE)
+          };
+      });
   }
+
+  areAllToDosComplete = () => (
+    this.state.todos.length && this.state.todos.every(todo => todo.completed)
+  );
 
   render() {
     const {todos, selectedFilter} = this.state;
 
     const filteredTodos = filterTodos(todos, selectedFilter);
-    const todosRemainingCount = (selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE)).length;
+    const todosRemainingCount = (
+        selectedFilter === Filter.ACTIVE ? filteredTodos : filterTodos(todos, Filter.ACTIVE)
+    ).length;
 
     return (
       <TodoAppStyled>
@@ -113,9 +131,14 @@ const App = class extends React.Component {
         </AppTitleStyled>
 
         <ContentStyled>
-          <Header onEnterNewTodo={this.onEnterNewTodo} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo} markAllCompleteChecked={todos.length > 0 && todos.every(todo => todo.completed)}/>
-          <ToDoList todos={filteredTodos} onDeleteToDo={this.onDeleteToDo} onToggleToDoComplete={this.onToggleToDoComplete} onEditToDo={this.onEditToDo} onStartEditTodo={this.onStartEditTodo} onUpdateToDo={this.onUpdateToDo}/>
-          <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} onUpdateSelectedFilter={this.onUpdateSelectedFilter} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo} onClearCompleted={this.onClearCompleted}/>
+          <Header onEnterNewTodo={this.onEnterNewTodo} onUpdateAllCompletedTo={this.onUpdateAllCompletedTo} 
+            markAllCompleteChecked={this.areAllToDosComplete()}/>
+          <ToDoList todos={filteredTodos} onDeleteToDo={this.onDeleteToDo}
+            onUpdateToDo={this.onUpdateToDo}/>
+          <Footer todosRemainingCount={todosRemainingCount} selectedFilter={selectedFilter} 
+                onUpdateSelectedFilter={this.onUpdateSelectedFilter} 
+                onUpdateAllCompletedTo={this.onUpdateAllCompletedTo}
+                onClearCompleted={this.onClearCompleted}/>
         </ContentStyled>
       </TodoAppStyled>
     );

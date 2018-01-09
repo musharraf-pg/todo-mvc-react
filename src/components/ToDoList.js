@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ToDoItem from './ToDoItem';
 import PropTypes from 'prop-types';
 import ToDoType from '../types/ToDoType';
-import { omit } from 'lodash';
 
 const ToDoListStyled = styled.ul`
     margin: 1em 0;
@@ -21,7 +20,9 @@ const ToDoList = ( { todos, ...rest } ) => (
 );
 
 ToDoList.propTypes = {
-    todos: PropTypes.arrayOf(ToDoType).isRequired
+    todos: PropTypes.arrayOf(ToDoType).isRequired,
+    onDeleteToDo: PropTypes.func.isRequired,
+    onUpdateToDo: PropTypes.func.isRequired,
 };
 
 export default ToDoList;

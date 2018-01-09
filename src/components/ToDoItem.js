@@ -53,7 +53,7 @@ const ToDoEditStyled = styled.input`
     display: block;
 `;
 
-const ToDoItem = class extends React.Component {
+class ToDoItem extends Component {
     constructor(props) {
         super(props);
 
@@ -64,14 +64,13 @@ const ToDoItem = class extends React.Component {
 
     onEditKeyPress = (event) => {
         if (event.which === 13) {
-            this.props.onUpdateToDo(this.props.todo, { ...this.props.todo, title: this.state.editText, editing: false });
+            const newTodo = { ...this.props.todo, title: this.state.editText, editing: false };
+            this.props.onUpdateToDo(this.props.todo, newTodo);
         }
     }
 
     render() {
-        const {
-            props: { todo, onDeleteToDo, onToggleToDoComplete, onEditToDo, onStartEditTodo, onUpdateToDo },
-        } = this;
+        const { todo, onDeleteToDo, onUpdateToDo } = this.props;
 
         let todoItem;
 
@@ -97,7 +96,9 @@ const ToDoItem = class extends React.Component {
 };
 
 ToDoItem.propTypes = {
-    todo: ToDoType.isRequired
+    todo: ToDoType.isRequired,
+    onDeleteToDo: PropTypes.func.isRequired,
+    onUpdateToDo: PropTypes.func.isRequired,
 };
 
 export default ToDoItem;

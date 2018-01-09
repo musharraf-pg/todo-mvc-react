@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Filter } from '../constants';
 import PropTypes from 'prop-types';
@@ -48,7 +48,9 @@ const Footer = ({ todosRemainingCount, selectedFilter, onUpdateSelectedFilter, o
 
 Footer.propTypes = {
     todosRemainingCount: PropTypes.number.isRequired,
-    selectedFilter: PropTypes.string.isRequired
+    selectedFilter: PropTypes.string.isRequired,
+    onUpdateSelectedFilter: PropTypes.func.isRequired,
+    onClearCompleted: PropTypes.func.isRequired
 };
 
 export default Footer;
